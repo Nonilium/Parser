@@ -1,10 +1,6 @@
-import numpy as np
 from keras import *
 from keras.src.datasets import *
 from keras.src.layers import *
-import ascii
-
-print(ascii.file_ascii)
 
 path_abs = r'C:\Users\tyuti\IdeaProjects\Gutenberg\Ramanyana.txt'
 
@@ -13,15 +9,20 @@ path_abs = r'C:\Users\tyuti\IdeaProjects\Gutenberg\Ramanyana.txt'
 
 model = Sequential()
 
-model.add(Dense(units=1, activation='relu'))
+model.add(Flatten(input_shape=(28, 28, 1)))
 
-model.add(Dense(units=32, activation='relu', input_dim=784))
+model.add(Dense(units=784, activation='relu'))
+model.add(Dense(units=784, activation='relu'))
+model.add(Dense(units=784, activation='relu'))
 
-model.add(Dense(units=10, activation='relu'))
+model.add(Dense(units=10))
 
+model.compile(loss="binary_crossentropy",
+              optimizer="rmsprop",
+              metrics=["accuracy"])
 
-model.compile(loss='binary_crossentropy',
-              optimizer='rmsprop',
-              metrics=['accuracy'])
+model.fit(x_train,
+          y_train,
+          epochs=10)
 
-model.fit(x_train, y_train, epochs=10)
+model.save('mnist_model.keras.txt')
