@@ -1,28 +1,20 @@
-from keras import *
-from keras.src.datasets import *
+# Хочу читать текст через нейросеть
+
 from keras.src.layers import *
+from keras.src.models import *
+from keras.src.datasets import *
 
-path_abs = r'C:\Users\tyuti\IdeaProjects\Gutenberg\Ramanyana.txt'
+file = open(r"C:\Users\tyuti\IdeaProjects\Gutenberg\Ramanyana.txt", "r")
 
-(x_train, y_train), (x_test, y_test) = mnist.load_data()
-# open(path_abs, 'r')
+(train_images, train_labels), (test_images, test_labels) = fashion_mnist.load_data()
 
 model = Sequential()
 
-model.add(Flatten(input_shape=(28, 28, 1)))
+model.add(Flatten(input_shape=(28, 28)))
+model.add(Dense(512, activation='relu'))
+model.add(Dense(10, activation='sigmoid'))
 
-model.add(Dense(units=784, activation='relu'))
-model.add(Dense(units=784, activation='relu'))
-model.add(Dense(units=784, activation='relu'))
+model.summary()
 
-model.add(Dense(units=10))
-
-model.compile(loss="binary_crossentropy",
-              optimizer="rmsprop",
-              metrics=["accuracy"])
-
-model.fit(x_train,
-          y_train,
-          epochs=10)
-
-model.save('mnist_model.keras.txt')
+model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
+model.fit(train_images, train_labels, epochs=5)
