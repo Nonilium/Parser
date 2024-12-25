@@ -10,12 +10,9 @@ soup = bs(response.text, "html.parser")
 
 title = soup.findAll("a", class_="tm-title__link")
 
-
-
 mas = []
 
-
-for ti in (title, ):
+for ti in title:
     title_words = ti.text
 
     with open(r"C:\Eagle\Parser\habr\Data_habr\title.txt", "r+") as f:
